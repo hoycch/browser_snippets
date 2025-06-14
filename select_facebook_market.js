@@ -1,0 +1,1 @@
+$x('//span[contains(., "電器") or contains(., "自由") or contains(., "任Post") or contains(., "乜都有") or contains(., "黃竹坑")]/ancestor::div[6]//i[contains(@style, "width: 20px")]').forEach(e=>e.click())
