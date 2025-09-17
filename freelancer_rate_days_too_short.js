@@ -1,0 +1,1 @@
+$x('//p[@class="text-xsmall" and number(translate(normalize-space(.), "abcdefghijklmnopqrstuvwxyz", "")) < 3]/ancestor::*[4]/descendant::fl-icon[contains(@class, "Ticks")][1]').forEach(t=>t.click());
