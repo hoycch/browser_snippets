@@ -1,0 +1,21 @@
+const rankedList = [];
+let currentRank = 1;
+for (let i = 0; i < classInfoList.length; i++) {
+    const current = classInfoList[i];
+    if (i > 0 && current.count > classInfoList[i-1].count) {
+        currentRank = i + 1;
+    }
+    rankedList.push({
+        rank: currentRank, // 实际排名（共享排名）
+        ...current
+    });
+}
+
+const first = rankedList.find(item => item.rank === 1) || { className: null, count: null, elements: [] };
+const second = rankedList.find(item => item.rank === 2) || { className: null, count: null, elements: [] };
+const third = rankedList.find(item => item.rank === 3) || { className: null, count: null, elements: [] };
+
+console.log("===== top 3 least occurring elements =====");
+console.log(`1nd least: ${first.className} | occurrence: ${first.count} | Element:`, first.elements);
+console.log(`2nd least: ${second.className} | occurrence: ${second.count} | Element:`, second.elements);
+console.log(`3rd least: ${third.className} | occurrence: ${third.count} | Element:`, third.elements);
