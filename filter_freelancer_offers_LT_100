@@ -1,0 +1,1 @@
+Array.from($$(".text-large.desktop\\:mr-none")).filter(el => Number(el.textContent.match(/\$(\d+)\.00\s+HKD/)?.[1] || Infinity) > 100).map(el => Array(8).fill().reduce(acc => acc?.parentElement, el)).forEach(ancestor => ancestor && (ancestor.style.display = "none"));
