@@ -1,0 +1,25 @@
+// 1. 先执行之前的筛选+拼接链接代码（确保 hrefList 存在）
+const targetElements = Array.from(document.querySelectorAll('.LinkElement')).filter(element => {
+  const innerText = element.innerText.trim();
+  return innerText.length > 0 && innerText[0] === '@';
+});
+const baseUrl = 'https://www.freelancer.com';
+const hrefList = targetElements.map(element => {
+  const originalHref = element.getAttribute('href') || '';
+  return originalHref.startsWith('http') ? originalHref : `${baseUrl}${originalHref.startsWith('/') ? '' : '/'}${originalHref}`;
+});
+
+// 2. 给每个链接添加 PowerShell 命令前缀，处理格式（注意转义双引号）
+const psCommands = hrefList.map(href => {
+  // 核心：前缀 + 转义后的链接（PowerShell 中双引号需用 ` 转义，或用单引号包裹链接）
+  return `Start-Process -FilePath "chrome.exe" -ArgumentList "${href}"`;
+});
+
+// 3. 拼接成多行文本，写入剪贴板
+const psText = psCommands.join('\n');
+navigator.clipboard.writeText(psText).then(() => {
+  console.log('✅ PowerShell 命令已复制到剪贴板！');
+  console.log('处理后的命令：\n', psText);
+}).catch(err => {
+  console.error('❌ 复制失败：', err);
+});
