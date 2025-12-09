@@ -1,21 +1,40 @@
-const rankedList = [];
-let currentRank = 1;
-for (let i = 0; i < classInfoList.length; i++) {
-    const current = classInfoList[i];
-    if (i > 0 && current.count > classInfoList[i-1].count) {
-        currentRank = i + 1;
-    }
-    rankedList.push({
-        rank: currentRank, // 实际排名（共享排名）
-        ...current
+
+const classList = $0.classList;
+const classInfoList = [];
+for (const className of classList) {
+    const elements = Array.from(document.getElementsByClassName(className));
+    const count = elements.length;
+    classInfoList.push({
+        className: className,  
+        count: count,     
+        elements: elements   
     });
 }
 
-const first = rankedList.find(item => item.rank === 1) || { className: null, count: null, elements: [] };
-const second = rankedList.find(item => item.rank === 2) || { className: null, count: null, elements: [] };
-const third = rankedList.find(item => item.rank === 3) || { className: null, count: null, elements: [] };
+classInfoList.sort((a, b) => {
+    if (a.count !== b.count) {
+        return a.count - b.count; // 优先按次数升序
+    }
+    return a.className.localeCompare(b.className);
+});
 
-console.log("===== top 3 least occurring elements =====");
-console.log(`1nd least: ${first.className} | occurrence: ${first.count} | Element:`, first.elements);
-console.log(`2nd least: ${second.className} | occurrence: ${second.count} | Element:`, second.elements);
-console.log(`3rd least: ${third.className} | occurrence: ${third.count} | Element:`, third.elements);
+const getRankedResult = (rank) => {
+    const index = rank - 1;
+    if (index < classInfoList.length) {
+        return classInfoList[index];
+    }
+    return { className: null, count: null, elements: [] }; 
+};
+
+const firstLeast = getRankedResult(1);
+const secondLeast = getRankedResult(2);
+const thirdLeast = getRankedResult(3);
+
+
+console.log("===== top 3 least occurring classes of $0 =====");
+console.log(`1st least: ${firstLeast.className} | occurs: ${firstLeast.count} | class:`, firstLeast.elements);
+console.log(`2nd least: ${secondLeast.className} | occurs: ${secondLeast.count} | class:`, secondLeast.elements);
+console.log(`3rd least: ${thirdLeast.className} | occurs: ${thirdLeast.count} | class:`, thirdLeast.elements);
+
+// 也可以返回整合后的结果数组（按需使用）
+const top3Least = [firstLeast, secondLeast, thirdLeast];
